@@ -1,14 +1,25 @@
-// Include the function prototypes and required libraries
+// File: Tax.cpp
+// Name: Ram Basnet
+// Purpose: Implement taxpayer input, validation, calculation, and output.
+
 #include "tax.hpp"
+#include "taxConstants.hpp"
 #include <iomanip>
 #include <iostream>
 
-// Get and validate each taxpayer's information, then calculate taxes.
+// Precondition: payers points to an array with room for numOfTaxPayers records.
+// Postcondition: Each record has valid income, tax rate, and calculated taxes.
 void taxTaker(TaxPayer payers[], int numOfTaxPayers)
 {
-    for (int i = 0; i < numOfTaxPayers; ++i)
+    // Index of the taxpayer currently being entered.
+    int i = 0;
+
+    while (i < numOfTaxPayers)
     {
+        // Tracks whether this taxpayer's income is valid.
         bool validIncome = false;
+
+        // Tracks whether this taxpayer's tax rate is valid.
         bool validTaxRate = false;
 
         while (validIncome == false)
@@ -25,14 +36,14 @@ void taxTaker(TaxPayer payers[], int numOfTaxPayers)
                 else
                 {
                     std::cout << "Income must be greater than zero.\n";
-                    std::cin.ignore(1000, '\n');
+                    std::cin.ignore(TaxConstants::INPUT_LINE_LENGTH, '\n');
                 }
             }
             else
             {
                 std::cout << "Please enter a number.\n";
                 std::cin.clear();
-                std::cin.ignore(1000, '\n');
+                std::cin.ignore(TaxConstants::INPUT_LINE_LENGTH, '\n');
             }
         }
 
@@ -51,32 +62,39 @@ void taxTaker(TaxPayer payers[], int numOfTaxPayers)
                 else
                 {
                     std::cout << "Tax rate must be between 0.01 and 9.9.\n";
-                    std::cin.ignore(1000, '\n');
+                    std::cin.ignore(TaxConstants::INPUT_LINE_LENGTH, '\n');
                 }
             }
             else
             {
                 std::cout << "Please enter a number.\n";
                 std::cin.clear();
-                std::cin.ignore(1000, '\n');
+                std::cin.ignore(TaxConstants::INPUT_LINE_LENGTH, '\n');
             }
         }
 
-        // Calculate taxes using the assignment's formula.
+        // Calculate taxes using the assignment's stated formula.
         payers[i].taxes = payers[i].income * payers[i].taxRate;
+        ++i;
     }
 }
 
-// Print each taxpayer's information.
+// Precondition: payers contains numOfTaxPayers completed taxpayer records.
+// Postcondition: Information for each taxpayer has been printed.
 void taxPrint(const TaxPayer payers[], int numOfTaxPayers)
 {
+    // Index of the taxpayer currently being printed.
+    int i = 0;
+
     std::cout << std::fixed << std::setprecision(2);
 
-    for (int i = 0; i < numOfTaxPayers; ++i)
+    while (i < numOfTaxPayers)
     {
         std::cout << "\nTaxpayer #" << i + 1 << '\n';
         std::cout << "Income: $" << payers[i].income << '\n';
         std::cout << "Tax rate: " << payers[i].taxRate << '\n';
         std::cout << "Taxes due: $" << payers[i].taxes << '\n';
+
+        ++i;
     }
 }
